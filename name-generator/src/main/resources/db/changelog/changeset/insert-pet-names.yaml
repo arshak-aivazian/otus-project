@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-pet-names
+      author: Aivazian Arshak
+      changes:
+        - insert:
+            tableName: pet_names
+            columns:
+              - column:
+                  name: name
+                  value: "dogMale"
+              - column:
+                  name: species
+                  value: "dog"
+              - column:
+                  name: gender
+                  value: "male"
+        - insert:
+            tableName: pet_names
+            columns:
+              - column:
+                  name: name
+                  value: "dogFemale"
+              - column:
+                  name: species
+                  value: "dog"
+              - column:
+                  name: gender
+                  value: "female"
+        - insert:
+            tableName: pet_names
+            columns:
+              - column:
+                  name: name
+                  value: "catMale"
+              - column:
+                  name: species
+                  value: "cat"
+              - column:
+                  name: gender
+                  value: "male"
+        - insert:
+            tableName: pet_names
+            columns:
+              - column:
+                  name: name
+                  value: "catFemale"
+              - column:
+                  name: species
+                  value: "cat"
+              - column:
+                  name: gender
+                  value: "female"

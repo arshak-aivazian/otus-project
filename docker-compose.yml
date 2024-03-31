@@ -1,0 +1,100 @@
+version: "3.9"
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: "postgres:13.3"
+    container_name: "java-postgres"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:legacy
+#    container_name: "mykeycloak"
+#    environment:
+#      DB_VENDOR: POSTGRES
+#      DB_ADDR: postgres
+#      DB_DATABASE: postgres
+#      DB_USER: postgres
+#      DB_SCHEMA: public
+#      DB_PASSWORD: postgres
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: admin
+#      KEYCLOAK_FRONTEND_URL: http://keycloak:8484/auth
+#    command: ["-Djboss.http.port=8484"]
+#      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+#      #JDBC_PARAMS: "ssl=true"
+#    ports:
+#      - 8484:8484
+#    depends_on:
+#      - postgres
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "32181:32181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka0:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9090:9090"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_INTERNAL://kafka0:29090,LISTENER_EXTERNAL://localhost:9090
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  name_generator:
+    build: ./name-generator
+    depends_on:
+      - postgres
+      - kafka0
+    container_name: "name-generator"
+    ports:
+      - "8081:8081"
+
+#  user-service:
+#    build: ./user-service
+#    depends_on:
+#      - keycloak
+#      - postgres
+#      - kafka0
+#      - eureka-server
+#      - config-server
+#      - api-gateway
+#    environment:
+#      - KEYCLOAK_SERVER_URL=http://keycloak:8484/auth
+#      - EUREKA_SERVER_URL=http://eureka-server:8761
+#      - CONFIG_SERVER_URL=http://config-server:8888
+#    container_name: "user-service"
+#
+#  pet-registration:
+#    build: ./pet-registration
+#    depends_on:
+#      - keycloak
+#      - postgres
+#      - eureka-server
+#      - config-server
+#      - api-gateway
+#    environment:
+#      - KEYCLOAK_SERVER_URL=http://keycloak:8484/auth
+#      - EUREKA_SERVER_URL=http://eureka-server:8761
+#      - CONFIG_SERVER_URL=http://config-server:8888
+#      - GATEWAY_URL=http://api-gateway:8080/
+#    container_name: "pet-registration"
