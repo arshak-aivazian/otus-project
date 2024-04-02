@@ -1,0 +1,1 @@
+INSERT INTO user_statistic VALUES (1, 'test', 'namegeneration', 'name', '2000-01-01');

@@ -69,20 +69,14 @@ services:
     ports:
       - "8081:8081"
 
-#  user-service:
-#    build: ./user-service
-#    depends_on:
-#      - keycloak
-#      - postgres
-#      - kafka0
-#      - eureka-server
-#      - config-server
-#      - api-gateway
-#    environment:
-#      - KEYCLOAK_SERVER_URL=http://keycloak:8484/auth
-#      - EUREKA_SERVER_URL=http://eureka-server:8761
-#      - CONFIG_SERVER_URL=http://config-server:8888
-#    container_name: "user-service"
+  user-service:
+    build: ./user-service
+    depends_on:
+      - postgres
+      - kafka0
+    container_name: "user-service"
+    ports:
+      - "8082:8082"
 #
 #  pet-registration:
 #    build: ./pet-registration
