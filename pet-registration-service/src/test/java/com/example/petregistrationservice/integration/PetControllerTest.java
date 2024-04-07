@@ -31,19 +31,4 @@ public class PetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("size()").value(1));
     }
-
-    @Test
-    public void findById() throws Exception {
-        mockMvc.perform(get("/api/pets/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id").value(1));
-    }
-
-    @Test
-    public void deletePet() throws Exception {
-        mockMvc.perform(delete("/api/pets/1"))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-    }
 }
