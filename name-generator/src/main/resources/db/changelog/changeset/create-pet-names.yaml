@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-pet-names
+      author: Aivazian Arshak
+      changes:
+        - createTable:
+            tableName: pet_names
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: species
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gender
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
