@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class PetNameRequest {
-    private String username;
+    private String userName;
     private Filter filter;
 }

@@ -39,7 +39,7 @@ public class NameServiceImpl implements NameService {
         Collections.shuffle(names);
         PetName petName = names.get(0);
 
-        sendMessage(request.getUsername(), petName.getName());
+        sendMessage(request.getUserName(), petName.getName());
         return petName;
     }
 

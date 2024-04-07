@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: pet-registration-service
+  liquibase:
+    enabled: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+app:
+  image:
+    bucket: /tmp
+  name-generation:
+    host: ${NAME_GENERATOR_URL:http://localhost:8081/}
+    endpoint: /api/generate

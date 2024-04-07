@@ -55,7 +55,7 @@ public class PetNamesTest {
                 .build();
 
         var request = new PetNameRequest();
-        request.setUsername("admin");
+        request.setUserName("admin");
         request.setFilter(andFilter);
         return request;
     }
